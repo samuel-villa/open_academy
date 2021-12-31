@@ -126,49 +126,23 @@ class SetAttendees(models.TransientModel):
     """
     This model allow users to create attendees for a particular session, or for a list of sessions at once.
     """
-    _name = 'wizard.openacademy.setattendees'
-    
-#     def default_session(self):
-#         """
-#         Retrieve the current session
-#         this action can be easily done within the .xml file by adding this line:
-#         <field name="context">{'default_session': active_id}</field>
-#         NOTE: this function MUST be declared BEFORE the 'session' field where it's called
-#         """
-#         default = self.env.context.get('active_id')
-#         return default
-    
-#     def default_attendees(self):
-#         """
-#         Retrieve the list of attendees for the current session
-#         NOTE: this function MUST be declared BEFORE the 'session' field where it's called
-#         """
-# #         default = self.env['session.session'].attendees.search([('id','=',10)])  # OK
-#         default = self.env['res.partner'].session_partner.search([('id','=',15)])
-#         return default
-
-#     def testing(self):
-#         res = self.env['session.session'].attendees.search([('id','=',10)])
-#         return res
-        
+    _name = 'wizard.openacademy.setattendees'        
     
     session_id = fields.Many2one("session.session", string="Session")
-#     attendees_ids = fields.Many2many("res.partner", string="Attendees", related='session_id.attendees', readonly=False)
     attendees_ids = fields.Many2many("res.partner", string="Attendees")
-    test = fields.Boolean()
     
     def set_attendees(self):
+        """
+        this function MUST be present because it's used to trigger the button function in the view
+        """
         return True
     
-    def get_session_attendees(self):
-        active_session = self.env.context.get('active_id')
-    
     @api.onchange('session_id')
-    def _test(self):
-        if self.test:
-            self.test = False
-        else:
-            self.test = True
+    def _onchange_session_attendees(self):
+        """
+        allows to add 'attendees' to the selected 'session' based on attendees already present
+        """
+        return {'domain':{'attendees_ids':[('id','not in',self.session_id.attendees.ids)]}}
     
     
 # ===============================================================================================

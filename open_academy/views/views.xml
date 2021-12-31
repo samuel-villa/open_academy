@@ -173,7 +173,7 @@
         <form>
             <sheet>
                 <group>
-                    <button name="manage_attendees" string="Manage Attendees" type="object" class="oe_highlight" context="{'default_attendees_ids': attendees}"/>
+                    <button name="manage_attendees" string="Manage Attendees" type="object" class="oe_highlight"/>
                 </group>
                 <h1>
                     <field name="name" placeholder="Session Name" />
@@ -269,7 +269,6 @@
                 </h1>
                 <group>
                     <field name="attendees_ids"/>
-                    <field name="test"/>
                 </group>                
                 <footer>
                     <button name="set_attendees" string="Set Attendees" type="object" class="oe_highlight"/>

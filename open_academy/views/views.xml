@@ -316,6 +316,6 @@
     <menuitem name="Courses" id="open_academy.menu_courses" parent="open_academy.menu_root" action="open_academy.action_window_course"/>
 
     <!-- SESSIONS MENU -->
-    <menuitem name="Sessions" id="open_academy.menu_sessions" parent="open_academy.menu_root"/>     
+    <menuitem name="Sessions" id="open_academy.menu_sessions" parent="open_academy.menu_root" action="open_academy.action_window_session"/>     
     </data>
 </odoo>

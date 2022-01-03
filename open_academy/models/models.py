@@ -140,7 +140,7 @@ class SetAttendees(models.TransientModel):
     @api.onchange('session_id')
     def _onchange_session_attendees(self):
         """
-        allows to add 'attendees' to the selected 'session' based on attendees already present
+        allows to add 'attendees' to the selected 'session' based on attendees already present.
         """
         return {'domain':{'attendees_ids':[('id','not in',self.session_id.attendees.ids)]}}
     

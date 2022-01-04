@@ -133,14 +133,16 @@ class SetAttendees(models.TransientModel):
     
     def set_attendees(self):
         """
-        this function MUST be present because it's used to trigger the button function in the view
+        function triggered by the 'Set Attendees' button. 
+        It allows to add extra attendees to the current session
         """
-        return True
+        self.session_id.attendees += self.attendees_ids
     
     @api.onchange('session_id')
     def _onchange_session_attendees(self):
         """
-        allows to add 'attendees' to the selected 'session' based on attendees already present.
+        allows to display left 'attendees' on 'Set Attendees' Wizard 
+        based on attendees already present in the selected session
         """
         return {'domain':{'attendees_ids':[('id','not in',self.session_id.attendees.ids)]}}
     

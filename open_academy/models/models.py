@@ -125,26 +125,26 @@ class Partner(models.Model):
 class SetAttendees(models.TransientModel):
     """
     This model allow users to create attendees for a particular session, or for a list of sessions at once.
+    Only partners not registered to selected sessions will be displayed
     """
     _name = 'wizard.openacademy.setattendees'        
     
-    session_id = fields.Many2one("session.session", string="Session")
+    session_ids = fields.Many2many("session.session", string="Sessions")
     attendees_ids = fields.Many2many("res.partner", string="Attendees")
     
     def set_attendees(self):
         """
-        function triggered by the 'Set Attendees' button. 
-        It allows to add extra attendees to the current session
+        Function triggered by the 'Set Attendees' button. 
+        It allows to add extra attendees to the selected sessions
         """
-        self.session_id.attendees += self.attendees_ids
+        self.session_ids.attendees += self.attendees_ids
     
-    @api.onchange('session_id')
+    @api.onchange('session_ids')
     def _onchange_session_attendees(self):
         """
-        allows to display left 'attendees' on 'Set Attendees' Wizard 
-        based on attendees already present in the selected session
+        Allows to display 'attendees' not yet registered to the selected sessions
         """
-        return {'domain':{'attendees_ids':[('id','not in',self.session_id.attendees.ids)]}}
+        return {'domain':{'attendees_ids':[('id','not in',self.session_ids.attendees.ids)]}}
     
     
 # ===============================================================================================

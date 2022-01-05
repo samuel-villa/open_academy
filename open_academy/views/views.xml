@@ -277,10 +277,56 @@
             </form>
         </field>
     </record>
+        
+<!-- ===============================================   REPORT   ============================================= -->        
+        
+    <!-- SESSION REPORT TEMPLATE -->
+    <template id="sessions_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <h2>Sessions Report</h2>
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div class="oe_structure">
+                            <div class="row">
+                                <table style="padding-top:20px;">
+                                    <tr>
+                                        <td>
+                                            <h4 class="text-align:center;"><span t-field="o.name"/></h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <p>start date: <span t-field="o.start_date"/></p>
+                                            <p>end date: <span t-field="o.end_date"/></p>
+                                            <p>attendees: <span t-field="o.attendees"/></p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
       
 <!-- ================================================================================================= -->
 <!-- ==========================================   ACTIONS   ========================================== -->
 <!-- ================================================================================================= -->
+        
+    <!-- REPORT DECLARATION FOR SESSIONS-->
+    <record id="sessions_report_list" model="ir.actions.report">
+        <field name="name">Sessions</field>
+        <field name="model">session.session</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">open_academy.sessions_report</field>
+        <field name="report_file">open_academy.sessions_report</field>
+<!--         <field name="attachment_use" eval="True"/>
+        <field name="attachment">('SES'+(object.name or '').replace('/','')+'.pdf')</field> -->
+        <field name="binding_model_id" ref="model_session_session"/>
+        <field name="binding_type">report</field>
+    </record>
       
     <!-- ACTION DEFINITION WIZARD SETATTENDEES-->
     <record model="ir.actions.act_window" id="set_attendees_wizard">

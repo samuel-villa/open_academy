@@ -284,22 +284,27 @@
     <template id="sessions_report">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
-                <h2>Sessions Report</h2>
+                <h2 style="text-align:center;">Sessions Report</h2>
                 <t t-foreach="docs" t-as="o">
                     <div class="page">
                         <div class="oe_structure">
-                            <div class="row">
-                                <table style="padding-top:20px;">
+                            <div class="row" style="padding-top:20px;">
+                                <table>
                                     <tr>
                                         <td>
-                                            <h4 class="text-align:center;"><span t-field="o.name"/></h4>
+                                            <h3 class="text-align:center;"><span t-field="o.name"/></h3>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="40%">
                                             <p>start date: <span t-field="o.start_date"/></p>
                                             <p>end date: <span t-field="o.end_date"/></p>
-                                            <p>attendees: <span t-field="o.attendees"/></p>
+                                            <p>attendees:</p>
+                                            <ul>
+                                                <t t-foreach="o.attendees" t-as="at">
+                                                    <li><span t-field="at.name"/></li>
+                                                </t>
+                                            </ul>
                                         </td>
                                     </tr>
                                 </table>
@@ -322,8 +327,6 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">open_academy.sessions_report</field>
         <field name="report_file">open_academy.sessions_report</field>
-<!--         <field name="attachment_use" eval="True"/>
-        <field name="attachment">('SES'+(object.name or '').replace('/','')+'.pdf')</field> -->
         <field name="binding_model_id" ref="model_session_session"/>
         <field name="binding_type">report</field>
     </record>

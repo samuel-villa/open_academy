@@ -127,7 +127,7 @@
         <field name="model">session.session</field>
         <field name="arch" type="xml">
             <graph>
-                <field name="attendees"/>
+                <field name="attendees_count" type="measure"/>
                 <field name="course"/>
             </graph>
         </field>

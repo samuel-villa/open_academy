@@ -54,6 +54,17 @@ class Session(models.Model):
     instructor = fields.Many2one("res.partner", string="Instructor")
     course = fields.Many2one("course.course", required=True, string="Course")
     attendees = fields.Many2many("res.partner", string="Attendees")
+    attendees_count = fields.Integer(string="Attendees count", compute="_get_attendees_count", store=True)
+    
+    @api.depends('attendees')
+    def _get_attendees_count(self):
+        """
+        needed to create an Integer field ('attendees_count') that will be used 
+        as the 'measure' for the graph bars. Without this method (and without the 'attendees_count' field) 
+        only the other Integer fields would be available in the 'measure' tab/button in the graph view
+        """
+        for record in self:
+            record.attendees_count = len(record.attendees)
                 
     @api.depends('start_date', 'duration')
     def _calculate_end_date(self):

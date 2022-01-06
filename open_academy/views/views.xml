@@ -315,10 +315,62 @@
             </t>
         </t>
     </template>
-      
+        
+<!-- ============================================   DASHBOARD   ========================================== -->  
+    <!-- DASHBOARD SUB-VIEWS -->
+    <record id="action_session_graph" model="ir.actions.act_window">
+       <field name="name">Session Graph</field>
+       <field name="res_model">session.session</field>
+       <field name="view_mode">graph</field>
+       <field name="view_id" ref="open_academy.open_academy_session_view_graph"/>
+    </record>
+        
+    <record id="action_session_calendar" model="ir.actions.act_window">
+       <field name="name">Session Calendar</field>
+       <field name="res_model">session.session</field>
+       <field name="view_mode">calendar</field>
+       <field name="view_id" ref="open_academy.open_academy_session_view_calendar"/>
+    </record>
+        
+    <record id="action_course_tree" model="ir.actions.act_window">
+       <field name="name">Course List</field>
+       <field name="res_model">course.course</field>
+       <field name="view_mode">tree</field>
+       <field name="view_id" ref="open_academy.open_academy_course_view_tree"/>
+    </record>
+        
+    <!-- DASHBOARD VIEW -->
+    <record id="open_academy_main_dashboard" model="ir.ui.view">
+        <field name="name">main_dashboard</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="My Dashboard">
+                <board style="1-2">
+                    <column>
+                        <action name="%(action_session_graph)d" string="Session Graph"/>
+                        <action name="%(action_course_tree)d" string="Course Tree"/>
+                    </column>
+                    <column>
+                        <action name="%(action_session_calendar)d" string="Session Calendar"/>
+                    </column>
+                </board>
+            </form>
+        </field>
+    </record>
+        
 <!-- ================================================================================================= -->
 <!-- ==========================================   ACTIONS   ========================================== -->
 <!-- ================================================================================================= -->
+        
+    <!-- ACTION DEFINITION DASHBOARD-->
+    <record model="ir.actions.act_window" id="open_academy_action_window_dashboard">
+        <field name="name">Dashboard</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="view_id" ref="open_academy_main_dashboard"/>
+    </record>
         
     <!-- REPORT DECLARATION FOR SESSIONS-->
     <record id="sessions_report_list" model="ir.actions.report">
@@ -359,12 +411,30 @@
     </record>
 
     <!-- actions -->
-    <menuitem name="Open Academy" id="open_academy.menu_root"/>   <!-- parent menu => MANDATORY-->
-
+    <menuitem 
+              name="Open Academy" 
+              id="open_academy.menu_root"/>   <!-- parent menu => MANDATORY-->
+        
     <!-- COURSES MENU -->
-    <menuitem name="Courses" id="open_academy.menu_courses" parent="open_academy.menu_root" action="open_academy.action_window_course"/>
+    <menuitem 
+              name="Courses" 
+              id="open_academy.menu_courses" 
+              parent="open_academy.menu_root" 
+              action="open_academy.action_window_course"/>
 
     <!-- SESSIONS MENU -->
-    <menuitem name="Sessions" id="open_academy.menu_sessions" parent="open_academy.menu_root" action="open_academy.action_window_session"/>     
+    <menuitem 
+              name="Sessions" 
+              id="open_academy.menu_sessions" 
+              parent="open_academy.menu_root" 
+              action="open_academy.action_window_session"/>
+        
+    <!-- DASHBOARD MENU -->
+    <menuitem 
+              name="Dashboard" 
+              id="open_academy.menu_dashboard" 
+              parent="open_academy.menu_root"
+              sequence="1"
+              action="open_academy_action_window_dashboard"/>
     </data>
 </odoo>

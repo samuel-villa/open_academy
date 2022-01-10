@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- FORM VIEW -->
+        <record id="partner_view_form" model="ir.ui.view">
+            <field name="name">open_academy.partner.view.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='function']" position="after">
+                  <field name="instructor"/>
+                  <field name="teacher"/>
+                  <field name="session_partner"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

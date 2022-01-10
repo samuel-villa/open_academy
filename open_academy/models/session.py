@@ -1,42 +1,10 @@
 # -*- coding: utf-8 -*-
-"""
-Open Academy exercise based on Odoo documentation:
-https://www.odoo.com/documentation/15.0/developer/howtos/backend.html?highlight=context#
-"""
+
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 import datetime
 
 
-class Course(models.Model):
-    """
-    Course model
-    """
-    _name = 'course.course'
-    _description = 'Course model'
-    _rec_name = 'title'  # allows to display the 'title' field into other models 
-                         # otherwise odoo takes automatically the field 'name' (not present in this model)
-
-    title = fields.Char(required=True, string="Course title")
-    description = fields.Text(string="Description")
-    responsible = fields.Many2one("res.users", string="Responsible")
-    sessions = fields.One2many("session.session", "course", string="Course")
-    
-    _sql_constraints = [
-        ('course_uniqe', 'unique(title)', 
-         'Course title must be unique'),
-        ('course_desc_different', 'check(title != description)', 
-         'Course description and course title must be different'),
-    ]
-    
-    def copy(self, default = {}):
-        """
-        Re-implement copy() method + modify the object 'title'
-        """
-        default['title'] = "copy_of_" + self.title
-        return super().copy(default=default)
-        
-    
 class Session(models.Model):
     """
     Session model
@@ -116,65 +84,3 @@ class Session(models.Model):
         within the Session model
         """
         return self.env['ir.actions.act_window']._for_xml_id('open_academy.set_attendees_wizard')
-
-
-class Partner(models.Model):
-    """
-    This model is used to add the fields 'instructor' and 'teacher' into the partner
-    and create a relation between 'session' and 'partner'
-    """
-    _inherit = 'res.partner'
-    
-    instructor = fields.Boolean(string="Instructor")
-    teacher = fields.Selection([
-        ('t1', 'Teacher / Level 1'), 
-        ('t2', 'Teacher / Level 2')
-    ], string="Teacher")
-    session_partner = fields.Many2many("session.session", string="Relation between Session and Partner")
-    
-    
-class SetAttendees(models.TransientModel):
-    """
-    This model allow users to create attendees for a particular session, or for a list of sessions at once.
-    Only partners not registered to selected sessions will be displayed
-    """
-    _name = 'wizard.openacademy.setattendees'        
-    
-    session_ids = fields.Many2many("session.session", string="Sessions")
-    attendees_ids = fields.Many2many("res.partner", string="Attendees")
-    
-    def set_attendees(self):
-        """
-        Function triggered by the 'Set Attendees' button. 
-        It allows to add extra attendees to the selected sessions
-        """
-        self.session_ids.attendees += self.attendees_ids
-    
-    @api.onchange('session_ids')
-    def _onchange_session_attendees(self):
-        """
-        Allows to display 'attendees' not yet registered to the selected sessions
-        """
-        return {'domain':{'attendees_ids':[('id','not in',self.session_ids.attendees.ids)]}}
-    
-    
-# ===============================================================================================
-#         EX Task: SC : Exercice 1 : partner fax
-# ===============================================================================================
-class PartnerFax(models.Model):
-    """
-    This model is used to add the field 'fax_number' into the partner form view
-    """
-    _inherit = 'res.partner'
-    
-    fax_number = fields.Char(string="Fax")
-
-
-class SaleOrderFax(models.Model):
-    """
-    This model gets the 'fax_number' from the 'res.partner' model 
-    and display it into 'sale.order' form view
-    """
-    _inherit = 'sale.order'
-    
-    fax_number = fields.Char(related='partner_id.fax_number', string="Fax")

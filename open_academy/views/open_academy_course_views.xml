@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- DEMONSTRATION DATA -->
+<!--         <record model="course.course" id="open_academy.course1">
+            <field name="title">Chemistry</field>
+            <field name="description">chemistry course (demo data)</field>
+        </record>
+
+        <record model="course.course" id="open_academy.course2">
+            <field name="title">Music</field>
+            <field name="description">music course (demo data)</field>
+        </record> -->
+      
+<!-- ============================================   COURSES   ============================================= -->
+      
+        <!-- FORM VIEW -->
+        <record model="ir.ui.view" id="open_academy_course_view_form">
+            <field name="name">open_academy.course.view.form</field>
+            <field name="model">course.course</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h1>
+                            <field name="title" placeholder="Course Name" />
+                        </h1>
+                        <notebook>
+                            <page string="Description">
+                                <group>
+                                    <field name="description"/>
+                                </group>
+                            </page>
+                            <page string="Responsible">
+                                <group>
+                                    <field name="responsible"/>
+                                </group>
+                            </page>
+                            <page string="Sessions">
+                                <group>
+                                    <field name="sessions"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- TREE VIEW -->
+        <record model="ir.ui.view" id="open_academy_course_view_tree">
+            <field name="name">open_academy.course.view.tree</field>
+            <field name="model">course.course</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="title"/>
+                    <field name="description"/>
+                    <field name="responsible"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- SEARCH VIEW -->
+        <record model="ir.ui.view" id="open_academy_course_view_search">
+            <field name="name">open_academy.course.view.search</field>
+            <field name="model">course.course</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="title"/>
+                    <field name="description"/>
+                    <field name="responsible"/>
+                    <filter name="my_courses" string="My Courses" domain="[('responsible', '=', uid)]"/>
+                    <group>
+                        <filter name="group_by_responsible" context="{'group_by': 'responsible'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- ACTION DEFINITION COURSES-->
+        <record model="ir.actions.act_window" id="open_academy.action_window_course">
+            <field name="name">Courses</field>
+            <field name="res_model">course.course</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="open_academy_course_view_search"/>
+            <field name="context">{"search_default_my_courses":1}</field>
+        </record>
+    </data>
+</odoo>

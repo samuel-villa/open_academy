@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- MAIN MENU -->
+        <menuitem 
+                  name="Open Academy" 
+                  id="open_academy.menu_root"/>   <!-- parent menu => MANDATORY-->
+
+        <!-- COURSES MENU -->
+        <menuitem 
+                  name="Courses" 
+                  id="open_academy.menu_courses" 
+                  parent="open_academy.menu_root" 
+                  action="open_academy.action_window_course"/>
+
+        <!-- SESSIONS MENU -->
+        <menuitem 
+                  name="Sessions" 
+                  id="open_academy.menu_sessions" 
+                  parent="open_academy.menu_root" 
+                  action="open_academy.action_window_session"/>
+
+        <!-- DASHBOARD MENU -->
+        <menuitem 
+                  name="Dashboard" 
+                  id="open_academy.menu_dashboard" 
+                  parent="open_academy.menu_root"
+                  sequence="1"
+                  action="open_academy_action_window_dashboard"/>
+    </data>
+</odoo>

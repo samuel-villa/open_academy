@@ -1,34 +1,36 @@
 # -*- coding: utf-8 -*-
 {
     'name': "open_academy",
-
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
-
-    'description': """
-        Long description of module's purpose.
+        Open Academy exercise based on Odoo documentation:
+        https://www.odoo.com/documentation/15.0/developer/howtos/backend.html?highlight=context#
     """,
-
-    'author': "My Company",
-    'website': "http://www.yourcompany.com",
-
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
+    'description': """
+        Module allowing to organize and handle an academy.
+        New courses and sessions can be created and both instructors and attendees can be registered into them.
+        A dashboard allows to visualize some statistics and a calendar view of all the sessions.
+    """,
+    'author': "Samuel Ciulla",
     'category': 'Uncategorized',
     'version': '0.1',
-
-    # any module necessary for this one to work correctly
-    'depends': ['base', 'sale'],
-
-    # always loaded
-    'data': [
-        'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+    'depends': [
+        'base', 
+        'sale',
+        'board',
     ],
-    # only loaded in demonstration mode
+    'data': [
+        'data/res_groups.xml',
+        'security/ir.model.access.csv',
+        'views/open_academy_menu_views.xml',
+        'views/open_academy_course_views.xml',
+        'views/open_academy_session_views.xml',
+        'views/open_academy_partner_views.xml',
+        'views/open_academy_partner_fax_views.xml',
+        'views/open_academy_sale_order_fax.xml',
+        'views/open_academy_dashboard_views.xml',
+        'wizard/set_attendees_views.xml',
+        'report/open_academy_session_report_views.xml',
+    ],
     'demo': [
         'demo/demo.xml',
     ],

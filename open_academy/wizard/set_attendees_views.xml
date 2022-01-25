@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- FORM VIEW -->
+        <record id="wizard_attendees_view_form" model="ir.ui.view">
+            <field name="name">open_academy.wizard.attendees.view.form</field>
+            <field name="model">wizard.openacademy.setattendees</field>
+            <field name="arch" type="xml">
+                <form>
+                    <strong>Register attendees to multiple sessions at once</strong>
+                    <p>Select one or more sessions and register extra attendees.</p>
+                    <group>
+                        <field name="session_ids"/>
+                        <field name="attendees_ids"/>
+                    </group>                
+                    <footer>
+                        <button name="set_attendees" string="Set Attendees" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- ACTION DEFINITION WIZARD SETATTENDEES-->
+        <record model="ir.actions.act_window" id="set_attendees_wizard">
+            <field name="name">Manage Attendees</field>
+            <field name="res_model">wizard.openacademy.setattendees</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{
+                'default_session_id': active_id
+                }</field>
+        </record>
+    </data>
+</odoo>
